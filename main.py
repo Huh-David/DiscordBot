@@ -24,6 +24,8 @@ colors = [discord.Colour.red(), discord.Colour.blue(), discord.Colour.green(), d
 @client.event
 async def on_ready():
     print('Bot is online.\n\n')
+
+
 #    change_status.start()
 
 
@@ -238,11 +240,11 @@ async def info(ctx, args=None):
     else:
         ctx.send("I could not find any user with this name!")
 
-
-# Increase the message counter of a user every time he sends a message
-@client.event
-async def on_message(message):
-    sqlhelper.increaseMessageCounter(message.author, message.author.id)
-
+#
+# # Increase the message counter of a user every time he sends a message
+# @client.event
+# async def on_message(message):
+#     sqlhelper.increaseMessageCounter(message.author, message.author.id)
+#
 
 client.run(TOKEN)
