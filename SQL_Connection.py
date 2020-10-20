@@ -3,6 +3,7 @@ import os
 import sys
 import logging
 
+
 def getConnection():
 	try:
 		conn = pymysql.connect(

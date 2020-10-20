@@ -2,6 +2,7 @@ import pymysql
 
 import SQL_Connection as sqlhandler
 
+
 def increaseMessageCounter(author, authorID) -> bool:
 	"""
 	Increases the message counter for the given user
@@ -20,7 +21,7 @@ def increaseMessageCounter(author, authorID) -> bool:
 		userID = userSqlRow[0][0]
 		numberOfMessagesSent = userSqlRow[0][1]
 		updateUserQuery = """UPDATE users SET numberOfMessagesSent = %s, name = %s WHERE userID = %s"""
-		cur.execute(updateUserQuery, (int(numberOfMessagesSent)+1, str(author), str(userID)))
+		cur.execute(updateUserQuery, (int(numberOfMessagesSent) + 1, str(author), str(userID)))
 		conn.commit()
 	else:
 		insertUserQuery = """INSERT INTO users (name, discordID, numberOfMessagesSent) VALUES (%s, %s, %s)"""
@@ -28,4 +29,3 @@ def increaseMessageCounter(author, authorID) -> bool:
 		conn.commit()
 	cur.close()
 	return True
-
