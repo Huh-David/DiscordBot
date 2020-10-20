@@ -1,17 +1,23 @@
 import asyncio
 import random
-
+import SQL_Connection as sqlhandler
 import discord
 import os
+import youtube_dl
 
 from discord import Guild, Member
-from discord.ext import commands
+from discord.ext import commands, tasks
+from ytdl_source import YTDLSource
 from discord.ext.commands import Bot
 from discord.voice_client import VoiceClient
-import SQL_Connection as sqlhandler
 
 TOKEN = os.environ['BOTPASSWORD']
 client = commands.Bot(command_prefix='!')
+queue = []
+colors = [discord.Colour.red(), discord.Colour.blue(), discord.Colour.green(), discord.Colour.gold(),
+          discord.Colour.orange(), discord.Colour.purple(), discord.Colour.blurple(),
+          discord.Colour.dark_blue(),
+          discord.Colour.teal(), discord.Colour.magenta()]
 
 
 @client.event
@@ -19,9 +25,40 @@ async def on_ready():
     print('Bot is online.\n\n')
 
 
+@tasks.loop(seconds=20)
+async def change_status():
+    await client.change_presence(activity=discord.Game('Nico ist toll'), status=discord.Status.online)
+    await asyncio.sleep(5)
+    await client.change_presence(activity=discord.Game('Nico ist nicht toll'), status=discord.Status.online)
+    await asyncio.sleep(5)
+    guild: Guild = client.get_guild(669173801908436995)
+    if guild:
+        role = guild.get_role(671022610838061057)
+        if role is not None:
+            if role.position < guild.get_member(client.user.id).top_role.position:
+                await role.edit(colour=random.choice(colors))
+
+
 # Private Methods
 def is_not_pinned(mess):
     return not mess.pinned
+
+
+def is_supported(url):
+    extractors = youtube_dl.extractor.gen_extractors()
+    for e in extractors:
+        if e.suitable(url) and e.IE_NAME != 'generic':
+            return True
+    return False
+
+
+async def play_youtube_song(ctx):
+    async with ctx.typing():
+        player = await YTDLSource.from_url(queue[0], loop=client.loop)
+        ctx.voice_client.play(player, after=lambda e: print('Player error: %s' % e) if e else None)
+
+    await ctx.send('**Now playing:** {}'.format(player.title))
+    del (queue[0])
 
 
 # Commands
@@ -54,8 +91,80 @@ async def leave(ctx):
 
 
 @client.command()
-async def play(ctx, args):
-    ctx.voice_client.play(discord.FFmpegPCMAudio(source=args), after=None)
+async def play(ctx, args="nourl"):
+    if is_supported(args):
+        global queue
+        queue = [args]
+
+        voice_channel = ctx.author.voice.channel
+        await voice_channel.connect()
+
+        await play_youtube_song(ctx)
+
+
+    else:
+        await ctx.author.voice.channel.connect()
+        ctx.voice_client.play(discord.FFmpegPCMAudio(source="alarm.mp3"), after=None)
+        await ctx.send(f"{args} is not a valid YouTube URL!")
+        ctx.voice_client.disconnect()
+
+
+@client.command()
+async def skip(ctx):
+    ctx.message.guild.voice_client.stop()
+    await play_youtube_song(ctx)
+
+
+@client.command()
+async def pause(ctx):
+    server = ctx.message.guild
+    voice_channel = server.voice_client
+
+    voice_channel.pause()
+
+
+@client.command()
+async def stop(ctx):
+    server = ctx.message.guild
+    voice_channel = server.voice_client
+
+    voice_channel.stop()
+
+
+@client.command()
+async def resume(ctx):
+    server = ctx.message.guild
+    voice_channel = server.voice_client
+
+    voice_channel.resume()
+
+
+@client.command()
+async def view(ctx):
+    await ctx.send(f'Your queue is now `{queue}!`')
+
+
+@client.command()
+async def queue(ctx, args):
+    global queue
+
+    if is_supported(args):
+        queue.append(args)
+        await ctx.send(f'`{args}` added to queue!')
+    else:
+        await ctx.send(f"{args} is not a valid YouTube URL!")
+
+
+@client.command()
+async def remove(ctx, number):
+    global queue
+
+    try:
+        del (queue[int(number)])
+        await ctx.send(f'Your queue is now `{queue}!`')
+
+    except:
+        await ctx.send('Your queue is either **empty** or the index is **out of range**')
 
 
 @client.command()
