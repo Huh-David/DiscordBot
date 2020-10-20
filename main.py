@@ -21,7 +21,7 @@ async def on_ready():
 
 # Private Methods
 def is_not_pinned(mess):
-    return not mess.pinned
+	return not mess.pinned
 
 
 # Commands
@@ -44,59 +44,59 @@ async def saveToSQL(ctx, *args):
 
 @client.command()
 async def join(ctx):
-    channel = ctx.author.voice.channel
-    await channel.connect()
+	channel = ctx.author.voice.channel
+	await channel.connect()
 
 
 @client.command()
 async def leave(ctx):
-    await ctx.voice_client.disconnect()
+	await ctx.voice_client.disconnect()
 
 
 @client.command()
 async def status(ctx, args):
-    game = discord.Game(args)
-    await client.change_presence(status=discord.Status.online, activity=game)
+	game = discord.Game(args)
+	await client.change_presence(status=discord.Status.online, activity=game)
 
 
 @client.command()
 async def clear(ctx, args="10"):
-    if ctx.author.permissions_in(ctx.channel).manage_messages:
-        if args.isdigit():
-            count = int(args) + 1
-            deleted = await ctx.channel.purge(limit=count, check=is_not_pinned)
-            await ctx.send('{} messages have been permanently deleted.'.format(len(deleted) - 1))
-            await asyncio.sleep(5)
-            await ctx.channel.purge(limit=1, check=is_not_pinned)
+	if ctx.author.permissions_in(ctx.channel).manage_messages:
+		if args.isdigit():
+			count = int(args) + 1
+			deleted = await ctx.channel.purge(limit=count, check=is_not_pinned)
+			await ctx.send('{} messages have been permanently deleted.'.format(len(deleted) - 1))
+			await asyncio.sleep(5)
+			await ctx.channel.purge(limit=1, check=is_not_pinned)
 
 
 @client.command()
 async def info(ctx, args=None):
-    if args:
-        member: Member = discord.utils.find(lambda m: args[1] in m.name, ctx.guild.members)
-    else:
-        member: Member = ctx.author
+	if args:
+		member: Member = discord.utils.find(lambda m: args[1] in m.name, ctx.guild.members)
+	else:
+		member: Member = ctx.author
 
-    if member:
-        embed = discord.Embed(title='Information for {}'.format(member.name),
-                              description='This is the user information of {}'.format(member.mention),
-                              color=0x22a7f0)
-        embed.add_field(name='Joined server at', value=member.joined_at.strftime("%m/%d/%Y, %H:%M:%S"),
-                        inline=True)
-        embed.add_field(name='Joined discord at', value=member.created_at.strftime("%m/%d/%Y, %H:%M:%S"),
-                        inline=True)
-        roles = ''
-        for role in member.roles:
-            if not role.is_default():
-                roles += '{} \r\n'.format(role.mention)
-        if roles:
-            embed.add_field(name='Roles', value=roles, inline=True)
-        embed.set_thumbnail(url=member.avatar_url)
-        embed.set_footer(text='Type "!info" to find informations about yourself.')
-        message = await ctx.send(embed=embed)
-        await message.add_reaction('💯')
-    else:
-        ctx.send("I could not find any user with this name!")
+	if member:
+		embed = discord.Embed(title='Information for {}'.format(member.name),
+							  description='This is the user information of {}'.format(member.mention),
+							  color=0x22a7f0)
+		embed.add_field(name='Joined server at', value=member.joined_at.strftime("%m/%d/%Y, %H:%M:%S"),
+						inline=True)
+		embed.add_field(name='Joined discord at', value=member.created_at.strftime("%m/%d/%Y, %H:%M:%S"),
+						inline=True)
+		roles = ''
+		for role in member.roles:
+			if not role.is_default():
+				roles += '{} \r\n'.format(role.mention)
+		if roles:
+			embed.add_field(name='Roles', value=roles, inline=True)
+		embed.set_thumbnail(url=member.avatar_url)
+		embed.set_footer(text='Type "!info" to find informations about yourself.')
+		message = await ctx.send(embed=embed)
+		await message.add_reaction('💯')
+	else:
+		ctx.send("I could not find any user with this name!")
 
 
 client.run(TOKEN)
