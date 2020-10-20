@@ -24,15 +24,15 @@ colors = [discord.Colour.red(), discord.Colour.blue(), discord.Colour.green(), d
 @client.event
 async def on_ready():
     print('Bot is online.\n\n')
-    change_status.start()
+#    change_status.start()
 
 
-@tasks.loop(seconds=5.0)
-async def change_status():
-    await client.change_presence(activity=discord.Game(name='Listening to music'), status=discord.Status.online)
-    await asyncio.sleep(5)
-
-    # TODO change color of funny llama role
+# @tasks.loop(seconds=5.0)
+# async def change_status():
+#     await client.change_presence(activity=discord.Game(name='Listening to music'), status=discord.Status.online)
+#     await asyncio.sleep(5)
+#
+#     # TODO change color of funny llama role
 
 
 # Private Methods
