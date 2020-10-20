@@ -7,10 +7,11 @@ This Discord Bot is mainly made for our private Discord Server.
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install all needed packages.
 
 ```bash
-pip install discord
+pip install discord.py
 pip install youtube_dl
 pip install PyNaCl
 pip install ffmpeg
+pip install pymysql
 ```
 
 ## Usage
