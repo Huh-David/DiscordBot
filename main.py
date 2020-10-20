@@ -9,6 +9,7 @@ from discord.ext import commands
 from discord.ext.commands import Bot
 from discord.voice_client import VoiceClient
 import SQL_Connection as sqlhandler
+import SQL_Helper as sqlhelper
 
 TOKEN = os.environ['BOTPASSWORD']
 client = commands.Bot(command_prefix='!')
@@ -97,6 +98,12 @@ async def info(ctx, args=None):
 		await message.add_reaction('💯')
 	else:
 		ctx.send("I could not find any user with this name!")
+
+
+# Increase the message counter of a user every time he sends a message
+@client.event
+async def on_message(message):
+	sqlhelper.increaseMessageCounter(message.author, message.author.id)
 
 
 client.run(TOKEN)
