@@ -26,4 +26,15 @@ async def hello(ctx):
     await ctx.send("Hi")
 
 
+@client.command()
+async def join(ctx):
+    channel = ctx.author.voice.channel
+    await channel.connect()
+
+
+@client.command()
+async def leave(ctx):
+    await ctx.voice_client.disconnect()
+
+
 client.run(TOKEN)
