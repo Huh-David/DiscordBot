@@ -1,13 +1,11 @@
 import discord
+import os
 
 from discord.ext import commands
 from discord.ext.commands import Bot
 from discord.voice_client import VoiceClient
 
-# local imports
-import credentials
-
-TOKEN = credentials.token
+TOKEN = os.environ['BOTPASSWORD']
 client = commands.Bot(command_prefix='!')
 
 
