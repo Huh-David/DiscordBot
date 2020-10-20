@@ -26,18 +26,15 @@ async def on_ready():
     print('Bot is online.\n\n')
 
 
-@tasks.loop(seconds=20)
-async def change_status():
-    await client.change_presence(activity=discord.Game('Nico ist toll'), status=discord.Status.online)
-    await asyncio.sleep(5)
-    await client.change_presence(activity=discord.Game('Nico ist nicht toll'), status=discord.Status.online)
-    await asyncio.sleep(5)
-    guild: Guild = client.get_guild(669173801908436995)
-    if guild:
-        role = guild.get_role(671022610838061057)
-        if role is not None:
-            if role.position < guild.get_member(client.user.id).top_role.position:
-                await role.edit(colour=random.choice(colors))
+#    change_status.start()
+
+
+# @tasks.loop(seconds=5.0)
+# async def change_status():
+#     await client.change_presence(activity=discord.Game(name='Listening to music'), status=discord.Status.online)
+#     await asyncio.sleep(5)
+#
+#     # TODO change color of funny llama role
 
 
 # Private Methods
@@ -243,11 +240,11 @@ async def info(ctx, args=None):
     else:
         ctx.send("I could not find any user with this name!")
 
-
-# Increase the message counter of a user every time he sends a message
-@client.event
-async def on_message(message):
-    sqlhelper.increaseMessageCounter(message.author, message.author.id)
-
+#
+# # Increase the message counter of a user every time he sends a message
+# @client.event
+# async def on_message(message):
+#     sqlhelper.increaseMessageCounter(message.author, message.author.id)
+#
 
 client.run(TOKEN)

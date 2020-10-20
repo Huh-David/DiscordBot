@@ -1,5 +1,6 @@
-pymysql
+pymysql~=0.10.1
 discord.py
 PyNaCl
 ffmpeg
 youtube_dl
+discord~=1.0.1
