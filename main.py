@@ -240,6 +240,21 @@ async def info(ctx, args=None):
     else:
         ctx.send("I could not find any user with this name!")
 
+
+@client.event
+async def on_voice_state_update(member, before, after):
+    if before.channel is None and after.channel is not None and member.id == 237250199175561216:
+        await member.edit(deafen=True)
+
+        voice_channel = member.voice.channel
+        voice_client = await voice_channel.connect()
+
+        voice_client.play(source=discord.FFmpegPCMAudio(source='alarm.mp3'))
+
+        await asyncio.sleep(4)
+        await member.edit(deafen=False)
+        await voice_client.disconnect()
+
 #
 # # Increase the message counter of a user every time he sends a message
 # @client.event
