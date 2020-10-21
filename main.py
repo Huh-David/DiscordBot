@@ -2,6 +2,7 @@ import asyncio
 import random
 import SQL_Connection as sqlhandler
 import SQL_Helper as sqlhelper
+import DualisCrawler as dualis
 import discord
 import os
 import youtube_dl
@@ -239,6 +240,19 @@ async def info(ctx, args=None):
         await message.add_reaction('💯')
     else:
         ctx.send("I could not find any user with this name!")
+
+@client.command()
+async def digitaltechnik(ctx):
+    task = asyncio.create_task(
+        asyncDigitecCoroutine(ctx)
+    )
+
+async def asyncDigitecCoroutine(ctx):
+    status = await dualis.digitaltechnik_grade_available()
+    message = 'Grade available! Yay!' if status else 'Grade not available :////'
+    await ctx.send(message)
+
+
 
 #
 # # Increase the message counter of a user every time he sends a message
