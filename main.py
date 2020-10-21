@@ -275,7 +275,7 @@ async def on_voice_state_update(member, before, after):
 # Increase the message counter of a user every time he sends a message
 @client.event
 async def on_message(message):
-	sqlhelper.increaseMessageCounter(message.author, message.author.id)
+	sqlhelper.increaseMessageCounter(message.author, message.author.id, message.content)
 	await client.process_commands(message)
 
 
