@@ -244,7 +244,8 @@ async def info(ctx, args=None):
 
 @client.command()
 async def digitaltechnik(ctx):
-    task = asyncio.create_task(
+    loop = asyncio.get_event_loop()
+    task = loop.create_task(
         asyncDigitecCoroutine(ctx)
     )
 
