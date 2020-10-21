@@ -5,6 +5,7 @@ import SQL_Helper as sqlhelper
 import discord
 import os
 import youtube_dl
+import corona_api
 
 from discord import Guild, Member
 from discord.ext import commands, tasks
@@ -63,6 +64,36 @@ async def play_youtube_song(ctx):
 @client.command()
 async def hello(ctx):
     await ctx.send("Hi")
+
+
+@client.command()
+async def corona(ctx, *args):
+    string = ""
+    for arg in args:
+        string += arg
+        string += " "
+    string = string[:-1]
+    user = ctx.author
+
+    corona_client = corona_api.Client()
+    if len(args) == 0:
+        data = await corona_client.all()
+    else:
+        try:
+            data = await corona_client.get_country_data(string)
+        except:
+            try:
+                data = await corona_client.get_single_state(string)
+            except:
+                data = await corona_client.get_all_countries()
+                data.append(await corona_client.get_all_states())
+                for x in data:
+                    await ctx.send(user.mention + " " + x.name)
+                return
+
+    await ctx.send(f"{data.cases} cases in {'total' if len(string) == 0 else string}.")
+    await ctx.send(f"{data.deaths} deaths in {'total' if len(string) == 0 else string}.")
+    await corona_client.request_client.close()
 
 
 @client.command()
@@ -254,6 +285,7 @@ async def on_voice_state_update(member, before, after):
         await asyncio.sleep(4)
         await member.edit(deafen=False)
         await voice_client.disconnect()
+
 
 #
 # # Increase the message counter of a user every time he sends a message
