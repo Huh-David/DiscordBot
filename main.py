@@ -6,6 +6,7 @@ import DualisCrawler as dualis
 import discord
 import os
 import youtube_dl
+import corona_api
 
 from discord import Guild, Member
 from discord.ext import commands, tasks
