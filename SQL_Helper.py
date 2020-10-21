@@ -20,11 +20,11 @@ def increaseMessageCounter(author, authorID) -> bool:
 	if cur.rowcount == 1:
 		userID = userSqlRow[0][0]
 		numberOfMessagesSent = userSqlRow[0][1]
-		updateUserQuery = """UPDATE users SET numberOfMessagesSent = %s, name = %s WHERE userID = %s"""
+		updateUserQuery = """UPDATE users SET numberOfMessagesSent = %s, name = %s, lastMessageSentTime = now() WHERE userID = %s"""
 		cur.execute(updateUserQuery, (int(numberOfMessagesSent) + 1, str(author), str(userID)))
 		conn.commit()
 	else:
-		insertUserQuery = """INSERT INTO users (name, discordID, numberOfMessagesSent) VALUES (%s, %s, %s)"""
+		insertUserQuery = """INSERT INTO users (name, discordID, numberOfMessagesSent, lastMessageSentTime) VALUES (%s, %s, %s, now())"""
 		cur.execute(insertUserQuery, (str(author), str(authorID), 1))
 		conn.commit()
 	cur.close()
