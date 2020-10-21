@@ -243,17 +243,17 @@ async def info(ctx, args=None):
 
 
 @client.command()
-async def digitaltechnik(ctx):
+async def grade(ctx, *args):
+	argsString = '{}'.format(' '.join(args))
 	loop = asyncio.get_event_loop()
 	task = loop.create_task(
-		asyncDigitecCoroutine(ctx)
+		asyncGradeCoroutine(ctx, argsString)
 	)
 
 
-async def asyncDigitecCoroutine(ctx):
-	status = await dualis.digitaltechnik_grade_available()
-	message = 'Grade available! Yay!' if status else 'Grade not available :////'
-	await ctx.send(message)
+async def asyncGradeCoroutine(ctx, argsString):
+	status = await dualis.grade_available(argsString)
+	await ctx.send(status)
 
 
 @client.event
