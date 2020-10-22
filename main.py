@@ -167,9 +167,10 @@ async def remove(ctx, number):
 
 
 @client.command()
-async def status(ctx, args=None):
-	game = discord.Game(args)
-	if args is None:
+async def status(ctx, *args):
+	argsString = '{}'.format(' '.join(args))
+	game = discord.Game(argsString)
+	if len(args) == 0:
 		await client.change_presence(status=discord.Status.online)  # TODO clear status
 	else:
 		await client.change_presence(status=discord.Status.online, activity=game)
