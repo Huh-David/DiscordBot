@@ -278,7 +278,7 @@ async def on_voice_state_update(member, before, after):
 		for member in voice_channel.members:
 			memberIDs.append(member.id)
 
-		if 160856702994874368 in memberIDs:
+		if 237250199175561216 in memberIDs:
 			await member.edit(deafen=True)
 
 			voice_channel = member.voice.channel
