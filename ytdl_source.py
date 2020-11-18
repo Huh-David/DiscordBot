@@ -5,7 +5,7 @@ import youtube_dl
 
 ytdl_format_options = {
     'format': 'bestaudio/best',
-    'outtmpl': '/ytdls/%(extractor)s-%(id)s-%(title)s.%(ext)s',
+    'outtmpl': './ytdls/%(extractor)s-%(id)s-%(title)s.%(ext)s',
     'restrictfilenames': True,
     'noplaylist': True,
     'nocheckcertificate': True,
