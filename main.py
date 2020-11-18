@@ -246,11 +246,15 @@ async def info(ctx, args=None):
 
 @client.command()
 async def grade(ctx, *args):
-	argsString = '{}'.format(' '.join(args))
-	loop = asyncio.get_event_loop()
-	task = loop.create_task(
-		asyncGradeCoroutine(ctx, argsString)
-	)
+	if "info" in args:
+		modules = await dualis.get_modules()
+		await ctx.send(modules)
+	else:
+		argsString = '{}'.format(' '.join(args))
+		loop = asyncio.get_event_loop()
+		task = loop.create_task(
+			asyncGradeCoroutine(ctx, argsString)
+		)
 
 
 async def asyncGradeCoroutine(ctx, argsString):

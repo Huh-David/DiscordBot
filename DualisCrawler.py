@@ -154,7 +154,7 @@ def logout(url, cookies):
 
 async def grade_available(module):
 	grades = await get_grades(os.environ['PADDY_DHBW_USER'], os.environ['PADDY_DHBW_PASSWORD'])
-	#print(grades)
+
 	for grade in grades:
 		if module in grade:
 			return "Grade available! Log in at https://dualis.dhbw.de now!" if grades[grade][0]['grade'] != 'noch nicht gesetzt' else "Grade not available yet :/"
@@ -163,3 +163,13 @@ async def grade_available(module):
 
 if __name__ == '__main__':
 	print(asyncio.run(grade_available('Programmieren')))
+
+
+async def get_modules():
+	print("here")
+	grades = await get_grades(os.environ['PADDY_DHBW_USER'], os.environ['PADDY_DHBW_PASSWORD'])
+	modulesString = ""
+	for grade in grades:
+		modulesString += (grade + "\n")
+	print(modulesString)
+	return modulesString
