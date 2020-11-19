@@ -264,35 +264,36 @@ async def asyncGradeCoroutine(ctx, argsString):
 
 @client.event
 async def on_voice_state_update(member, before, after):
-	if before.channel is None and after.channel is not None and member.id == 237250199175561216:
-		await member.edit(deafen=True)
-
-		voice_channel = member.voice.channel
-		voice_client = await voice_channel.connect()
-
-		voice_client.play(source=discord.FFmpegPCMAudio(source='alarm.mp3'))
-
-		await asyncio.sleep(4)
-		await member.edit(deafen=False)
-		await voice_client.disconnect()
-	elif before.channel is None and after.channel is not None and member.id in [319152565176762368, 160856702994874368,
-																				439748459738693633]:
-		voice_channel = member.voice.channel
-		memberIDs = []
-		for member in voice_channel.members:
-			memberIDs.append(member.id)
-
-		if 237250199175561216 in memberIDs:
-			await member.edit(deafen=True)
-
-			voice_channel = member.voice.channel
-			voice_client = await voice_channel.connect()
-
-			voice_client.play(source=discord.FFmpegPCMAudio(source='monika_hallo.mp3'))
-
-			await asyncio.sleep(2)
-			await member.edit(deafen=False)
-			await voice_client.disconnect()
+	pass
+	# if before.channel is None and after.channel is not None and member.id == 237250199175561216:
+	# 	await member.edit(deafen=True)
+	#
+	# 	voice_channel = member.voice.channel
+	# 	voice_client = await voice_channel.connect()
+	#
+	# 	voice_client.play(source=discord.FFmpegPCMAudio(source='alarm.mp3'))
+	#
+	# 	await asyncio.sleep(4)
+	# 	await member.edit(deafen=False)
+	# 	await voice_client.disconnect()
+	# elif before.channel is None and after.channel is not None and member.id in [319152565176762368, 160856702994874368,
+	# 																			439748459738693633]:
+	# 	voice_channel = member.voice.channel
+	# 	memberIDs = []
+	# 	for member in voice_channel.members:
+	# 		memberIDs.append(member.id)
+	#
+	# 	if 237250199175561216 in memberIDs:
+	# 		await member.edit(deafen=True)
+	#
+	# 		voice_channel = member.voice.channel
+	# 		voice_client = await voice_channel.connect()
+	#
+	# 		voice_client.play(source=discord.FFmpegPCMAudio(source='monika_hallo.mp3'))
+	#
+	# 		await asyncio.sleep(2)
+	# 		await member.edit(deafen=False)
+	# 		await voice_client.disconnect()
 
 
 # Increase the message counter of a user every time he sends a message
