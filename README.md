@@ -7,12 +7,17 @@ This Discord Bot is mainly made for our private Discord Server.
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install all needed packages.
 
 ```bash
-pip install discord.py
-pip install youtube_dl
-pip install PyNaCl
-pip install ffmpeg
-pip install pymysql
+pip install -r requirements.txt
 ```
+
+## Required environment variables
+- `BOTPASSWORD` The Discord bot token
+- `Llama_Discord_Bot_SQL_Database` The database to use
+- `Llama_Discord_Bot_SQL_Host` The SQL host address
+- `Llama_Discord_Bot_SQL_Username` The SQL username
+- `Llama_Discord_Bot_SQL_Password` The SQL password
+
+The SQL stuff can be skipped if all SQL-related stuff is removed from the code.
 
 ## Usage
 
