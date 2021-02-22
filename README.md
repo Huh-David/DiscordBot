@@ -16,8 +16,12 @@ pip install -r requirements.txt
 - `Llama_Discord_Bot_SQL_Host` The SQL host address
 - `Llama_Discord_Bot_SQL_Username` The SQL username
 - `Llama_Discord_Bot_SQL_Password` The SQL password
+- `PADDY_DHBW_USER` Patricks Dualis username
+- `PADDY_DHBW_PASSWORD` Patricks Dualis password
 
-The SQL stuff can be skipped if all SQL-related stuff is removed from the code.
+The SQL stuff can be skipped if all SQL-related stuff is removed from the code.<br>
+The DHBW stuff contains Patricks Dualis credentials which you hopefully don't have, so you can either disable
+the DualisCrawler.py module or enter your own dualis credentials here.
 
 ## Usage
 
