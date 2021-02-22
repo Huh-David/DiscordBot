@@ -5,3 +5,6 @@ ffmpeg
 youtube_dl
 discord~=1.0.1
 corona_api
+requests
+bs4
+werkzeug
